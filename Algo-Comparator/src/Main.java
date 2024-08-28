@@ -1,8 +1,4 @@
-import Algorithm.BubbleSort;
-import Algorithm.QuickSort;
-import Algorithm.HeapSort;
-import Algorithm.SelectionSort;
-import Algorithm.SortAlgorithm;
+import Algorithm.*;
 
 import java.security.SecureRandom;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +30,8 @@ public class Main {
                 new QuickSort(),
                 new HeapSort(),
                 new SelectionSort()
+                new MergeSort(),
+                new ShellSort(),
         };
 
         ExecutorService executor = Executors.newFixedThreadPool(algorithms.length);
@@ -44,16 +42,13 @@ public class Main {
             final SortAlgorithm algorithm = algorithms[i];
             futures[i] = CompletableFuture.runAsync(() -> {
                 try {
-                    long startTimeMillis = currentTimeMillis();
-                    long startTimeNanos = nanoTime();
-
+                    var startTimeMillis = currentTimeMillis();
+                    var startTimeNanos = nanoTime();
                     algorithm.sort(input);
-
-                    long endTimeMillis = currentTimeMillis();
-                    long endTimeNanos = nanoTime();
-
-                    long durationMillis = endTimeMillis - startTimeMillis;
-                    long durationNanos = endTimeNanos - startTimeNanos;
+                    var endTimeMillis = currentTimeMillis();
+                    var endTimeNanos = nanoTime();
+                    var durationMillis = endTimeMillis - startTimeMillis;
+                    var durationNanos = endTimeNanos - startTimeNanos;
 
                     out.println(algorithm.getClass().getSimpleName() + " took " + durationMillis + " ms / " + durationNanos + " ns");
                     out.println();
