@@ -1,8 +1,15 @@
 import Algorithm.BubbleSort;
+import Algorithm.QuickSort;
+import Algorithm.HeapSort;
 import Algorithm.SelectionSort;
 import Algorithm.SortAlgorithm;
 
 import java.security.SecureRandom;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.*;
 
@@ -18,29 +25,47 @@ public class Main {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    public static void main(String[] args) {
-        String input = generateRandomString(900);
-        out.println("Generated Random String: " + input);
+    public static void main(String[] args) throws InterruptedException {
+        var input = generateRandomString(100000);
         out.println();
 
         SortAlgorithm[] algorithms = {
                 new BubbleSort(),
-                new SelectionSort(),
+                new QuickSort(),
+                new HeapSort(),
+                new SelectionSort()
         };
 
-        for (SortAlgorithm algorithm : algorithms) {
-            var startTimeMillis = currentTimeMillis();
-            var startTimeNanos = nanoTime();
-            String sortedOutput = algorithm.sort(input);
-            var endTimeMillis = currentTimeMillis();
-            var endTimeNanos = nanoTime();
-            var durationMillis = endTimeMillis - startTimeMillis;
-            var durationNanos = endTimeNanos - startTimeNanos;
+        ExecutorService executor = Executors.newFixedThreadPool(algorithms.length);
 
-            out.println(algorithm.getClass().getSimpleName() + " took " + durationMillis + " ms / " + durationNanos + " ns");
-            out.println("Sorted Output: " + sortedOutput);
-            out.println();
+        var futures = new CompletableFuture[algorithms.length];
+
+        for (int i = 0; i < algorithms.length; i++) {
+            final SortAlgorithm algorithm = algorithms[i];
+            futures[i] = CompletableFuture.runAsync(() -> {
+                try {
+                    long startTimeMillis = currentTimeMillis();
+                    long startTimeNanos = nanoTime();
+
+                    algorithm.sort(input);
+
+                    long endTimeMillis = currentTimeMillis();
+                    long endTimeNanos = nanoTime();
+
+                    long durationMillis = endTimeMillis - startTimeMillis;
+                    long durationNanos = endTimeNanos - startTimeNanos;
+
+                    out.println(algorithm.getClass().getSimpleName() + " took " + durationMillis + " ms / " + durationNanos + " ns");
+                    out.println();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, executor);
         }
+        CompletableFuture.allOf(futures).join();
+
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.MINUTES);
     }
 
     private static String generateRandomString(int length) {
