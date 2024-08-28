@@ -29,7 +29,8 @@ public class Main {
                 new BubbleSort(),
                 new QuickSort(),
                 new HeapSort(),
-                new SelectionSort()
+                new SelectionSort(),
+                new InsertionSort(),
                 new MergeSort(),
                 new ShellSort(),
         };
