@@ -1,4 +1,5 @@
 import Algorithm.BubbleSort;
+import Algorithm.SelectionSort;
 import Algorithm.SortAlgorithm;
 
 import java.security.SecureRandom;
@@ -18,12 +19,13 @@ public class Main {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     public static void main(String[] args) {
-        String input = generateRandomString(100);
+        String input = generateRandomString(900);
         out.println("Generated Random String: " + input);
         out.println();
 
         SortAlgorithm[] algorithms = {
                 new BubbleSort(),
+                new SelectionSort(),
         };
 
         for (SortAlgorithm algorithm : algorithms) {
