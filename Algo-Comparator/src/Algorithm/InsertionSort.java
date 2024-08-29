@@ -4,12 +4,12 @@ public class InsertionSort implements SortAlgorithm {
 
     @Override
     public String sort(String input) {
-        char[] array = input.toCharArray();
-        int n = array.length;
+        var array = input.toCharArray();
+        var n = array.length;
 
         for (int i = 1; i < n; i++) {
-            char key = array[i];
-            int j = i - 1;
+            var key = array[i];
+            var j = i - 1;
 
             while (j >= 0 && SortUtils.shouldSwap(array[j], key)) {
                 array[j + 1] = array[j];

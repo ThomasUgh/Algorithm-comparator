@@ -45,13 +45,14 @@ public class Main {
                 try {
                     var startTimeMillis = currentTimeMillis();
                     var startTimeNanos = nanoTime();
-                    algorithm.sort(input);
+                    var output = algorithm.sort(input);
                     var endTimeMillis = currentTimeMillis();
                     var endTimeNanos = nanoTime();
                     var durationMillis = endTimeMillis - startTimeMillis;
                     var durationNanos = endTimeNanos - startTimeNanos;
 
                     out.println(algorithm.getClass().getSimpleName() + " took " + durationMillis + " ms / " + durationNanos + " ns");
+                    //out.println(output);
                     out.println();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -24,9 +24,9 @@ public class HeapSort implements SortAlgorithm {
     }
 
     private void heapify(char[] array, int n, int i) {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
+        var largest = i;
+        var left = 2 * i + 1;
+        var right = 2 * i + 2;
 
         if (left < n && SortUtils.shouldSwap(array[largest], array[left])) {
             largest = left;
