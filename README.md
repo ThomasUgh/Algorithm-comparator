@@ -1,4 +1,4 @@
-# Algorithm-Comparator
+# Java Algorithm-Comparator
 
 Dieses Projekt vergleicht die Leistung verschiedener Sortieralgorithmen anhand einer vordefinierten Zeichenfolge. Die Sortieralgorithmen sind in separaten Klassen implementiert und können leicht erweitert werden.
 
